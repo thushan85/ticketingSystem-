@@ -1,0 +1,6 @@
+MYSQL_ROOT_PASSWORD : root,
+MYSQL_DATABASE : ticketing_system,
+MYSQL_USER : root,
+MYSQL_PASSWORD : root,
+MYSQL_USER_MONITORING : monitoring,
+MYSQL_PASSWORD_MONITORING : monitoring

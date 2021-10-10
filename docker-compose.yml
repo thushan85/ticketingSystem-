@@ -1,0 +1,26 @@
+version: "3.4"
+services:
+    mysql-server:
+        container_name: mysql
+        hostname: mysql
+        image: quay.io/perriea/alpine-mysql:1.0
+        ports:
+            - "33006:3306"
+        environment:
+          - MYSQL_ROOT_PASSWORD=root
+          - MYSQL_DATABASE=ticketing_system
+          - MYSQL_USER=root
+          - MYSQL_PASSWORD=root
+          - MYSQL_USER_MONITORING=monitoring
+          - MYSQL_PASSWORD_MONITORING=monitoring
+    api:
+        build: .
+        volumes:
+            - ./:/app
+        ports:
+            - "8080:8080"
+        hostname: api.docker
+        environment:
+            - APP_PORT=8080
+        depends_on:
+            - mysql-server

@@ -1,0 +1,23 @@
+package com.esad.assignment.ticketingsystem.response;
+
+import lombok.Getter;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+@Getter
+public class ErrorResponse {
+    private Integer success = 0;
+    private Date timestamp = new Date();
+    private Object data = null;
+    private Map<String, String> message = new HashMap<>();
+
+    public ErrorResponse(String message){
+        this.message.put("0", message);
+    }
+
+    public ErrorResponse(Map<String, String> message){
+        this.message = message;
+    }
+}
