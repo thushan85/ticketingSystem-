@@ -2,14 +2,12 @@ package com.esad.assignment.ticketingsystem.controller.passenger;
 
 import com.esad.assignment.ticketingsystem.controller.BaseController;
 import com.esad.assignment.ticketingsystem.model.Journey;
+import com.esad.assignment.ticketingsystem.request.JourneyRequest;
 import com.esad.assignment.ticketingsystem.response.SuccessResponse;
 import com.esad.assignment.ticketingsystem.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,8 +19,16 @@ public class JourneyController extends BaseController {
     JourneyService journeyService;
 
     @PostMapping("/start")
-    public Object checkIn() {
-        return  null;
+    public Object checkIn(@RequestBody JourneyRequest journeyRequest) {
+        Journey journey = new Journey();
+        try {
+            journey = journeyService.start(journeyRequest);
+        } catch (RuntimeException e) {
+            logger.warning("error in checkIn" + e.getMessage());
+        }
+        return ResponseEntity
+            .ok()
+            .body(new SuccessResponse(journey, "Successfully checkedIn"));
     }
 
     @PostMapping("/end")

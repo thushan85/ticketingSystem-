@@ -23,6 +23,8 @@ public class Journey extends BaseModel {
 
     private Timestamp startTime;
     private Timestamp endTime;
+    private Integer tripId;
+    private Integer isCurrent;
 
     @ManyToOne
     @JoinColumn(name = "start_location_id", nullable = false)

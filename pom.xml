@@ -73,7 +73,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>7.11.1</version>
                 <configuration>
-                    <url>jdbc:mysql://mysql:33006/ticketing_system?useSSL=false</url>
+                    <url>jdbc:mysql://localhost:3306/ticketing_system?useSSL=false</url>
                     <user>root</user>
                     <password>root</password>
                 </configuration>
