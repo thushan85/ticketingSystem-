@@ -1,5 +1,5 @@
 ALTER TABLE `users`
-    ADD COLUMN `email` VARBINARY(255) NULL AFTER `nic`,
+    ADD COLUMN `email` VARCHAR(255) NULL AFTER `nic`,
     ADD UNIQUE INDEX `uc_user_email` (`email`);
 
 ALTER TABLE `users`

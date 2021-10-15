@@ -3,6 +3,7 @@ package com.esad.assignment.ticketingsystem.controller.passenger;
 import com.esad.assignment.ticketingsystem.controller.BaseController;
 import com.esad.assignment.ticketingsystem.model.Journey;
 import com.esad.assignment.ticketingsystem.request.JourneyRequest;
+import com.esad.assignment.ticketingsystem.response.ErrorResponse;
 import com.esad.assignment.ticketingsystem.response.SuccessResponse;
 import com.esad.assignment.ticketingsystem.service.JourneyService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +33,20 @@ public class JourneyController extends BaseController {
     }
 
     @PostMapping("/end")
-    public Object checkout() {
-        return  null;
+    public Object checkout(@RequestBody JourneyRequest journeyRequest) {
+        Journey journey = new Journey();
+        Object response = null;
+        try {
+            journey = journeyService.start(journeyRequest);
+        } catch (RuntimeException e) {
+            logger.warning("error in chedckout" + e.getMessage());
+            response = new ErrorResponse(e.getMessage());
+        }
+        response = new SuccessResponse(journey, "Successfully checkedOut");
+
+        return ResponseEntity
+                .ok()
+                .body(response);
     }
 
     @GetMapping("/list")

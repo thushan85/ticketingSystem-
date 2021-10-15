@@ -1,5 +1,6 @@
 package com.esad.assignment.ticketingsystem.controller.user;
 
+import com.esad.assignment.ticketingsystem.controller.BaseController;
 import com.esad.assignment.ticketingsystem.request.UserRegisterRequest;
 import com.esad.assignment.ticketingsystem.response.SuccessResponse;
 import com.esad.assignment.ticketingsystem.service.user.UserRegistrationService;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(path = "/api/v1/registration")
-public class UserRegistrationController {
+public class UserRegistrationController extends BaseController {
     private final UserRegistrationService userRegistrationService;
 
     @Autowired
@@ -21,8 +22,10 @@ public class UserRegistrationController {
         this.userRegistrationService = userRegistrationService;
     }
 
-    @RequestMapping(method = RequestMethod.POST, path = "/", produces = "application/json")
+    @RequestMapping(method = RequestMethod.POST, produces = "application/json")
     public ResponseEntity<SuccessResponse> registerUser(@RequestBody UserRegisterRequest request) {
+
+        this.logger.info(request.toString());
         return ResponseEntity.status(HttpStatus.CREATED).body(
                 new SuccessResponse(this.userRegistrationService.register(request), "User created successfully"));
     }
