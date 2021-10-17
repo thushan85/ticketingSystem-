@@ -2,8 +2,10 @@ package com.esad.assignment.ticketingsystem.service.impl;
 
 import com.esad.assignment.ticketingsystem.exception.DataNotFoundException;
 import com.esad.assignment.ticketingsystem.model.User;
+import com.esad.assignment.ticketingsystem.model.Vehicle;
 import com.esad.assignment.ticketingsystem.model.enums.UserType;
 import com.esad.assignment.ticketingsystem.repository.UserRepository;
+import com.esad.assignment.ticketingsystem.repository.VehicleRepository;
 import com.esad.assignment.ticketingsystem.request.UserLoginRequest;
 import com.esad.assignment.ticketingsystem.request.UserRegisterRequest;
 import com.esad.assignment.ticketingsystem.service.user.UserRegistrationService;
@@ -11,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Optional;
 
 @Slf4j
@@ -18,10 +21,12 @@ import java.util.Optional;
 public class UserRegistrationServiceImpl implements UserRegistrationService {
 
     private final UserRepository userRepository;
+    private  final VehicleRepository vehicleRepository;
 
     @Autowired
-    public UserRegistrationServiceImpl(UserRepository userRepository) {
+    public UserRegistrationServiceImpl(UserRepository userRepository, VehicleRepository vehicleRepository) {
         this.userRepository = userRepository;
+        this.vehicleRepository = vehicleRepository;
     }
 
     @Override
@@ -48,9 +53,20 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public User login(UserLoginRequest request)  throws  DataNotFoundException {
-        User user = this.userRepository.findUserByMobileNumberAndUserType(request.getMobileNumber(), request.getUserType()).orElseThrow(() -> new DataNotFoundException("User not found."));
-        return  user;
+    public HashMap <String, Object> login(UserLoginRequest request)  throws  DataNotFoundException {
+
+        HashMap<String, Object> data = new HashMap<>();
+
+        User user = this.userRepository.findUserByMobileNumberAndUserType(request.getMobileNumber(), request.getUserType())
+                .orElseThrow(() -> new DataNotFoundException("User not found."));
+
+        data.put("user", user);
+
+        if (user.getUserType().equals(UserType.DRIVER)) {
+            Vehicle vehicle = vehicleRepository.findVehicleByDriverId(user.getId()).orElse(new Vehicle());  //.orElseThrow(() -> new DataNotFoundException("Driver has not assigned to a vehicle yet."));
+            data.put("vehicle", vehicle);
+        }
+        return  data;
     }
 
     @Override

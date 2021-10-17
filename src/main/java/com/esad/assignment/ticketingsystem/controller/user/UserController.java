@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+
 @RestController
 @RequestMapping(path = "/api/v1/user")
 public class UserController extends BaseController {
@@ -35,15 +37,15 @@ public class UserController extends BaseController {
         Object response = null;
 
         try {
-            User user = this.userRegistrationService.login(request);
-            response = new SuccessResponse(user, "Login success");
+            HashMap<String, Object> userData = this.userRegistrationService.login(request);
+            response = new SuccessResponse(userData, "Login success");
         } catch (RuntimeException e) {
             response = new ErrorResponse(e.getMessage());
             this.logger.warning(e.getMessage());
         }
         return ResponseEntity
-                .ok()
-                .body(response);
+            .ok()
+            .body(response);
 
     }
 }

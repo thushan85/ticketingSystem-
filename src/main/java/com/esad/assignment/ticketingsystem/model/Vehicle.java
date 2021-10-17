@@ -20,17 +20,26 @@ public class Vehicle extends Serializers.Base {
     @GenericGenerator(name = "native", strategy = "native")
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "owner_id", nullable = false)
-    private User ownerId;
+    @Column(name = "driver_Id")
+    private Integer driverId;
+
+    @Column(name = "owner_id")
+    private  Integer ownerId;
+
+    @Column(name = "route_id")
+    private  Integer routeId;
 
     private String regNo;
 
-    @ManyToOne
-    @JoinColumn(name = "route_id", nullable = false)
-    private Route routeId;
-
-    @ManyToOne
-    @JoinColumn(name = "driver_id", nullable = false)
-    private User driverId;
+//    @ManyToOne
+//    @JoinColumn(name = "owner_id", nullable = false, insertable = false, updatable = false)
+//    private User owner;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "route_id", nullable = false, insertable = false, updatable = false)
+//    private Route route;
+//
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "driver_id", nullable = false, insertable = false, updatable = false)
+//    private User driver;
 }
