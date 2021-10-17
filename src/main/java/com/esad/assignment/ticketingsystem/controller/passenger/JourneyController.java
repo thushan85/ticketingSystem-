@@ -19,35 +19,36 @@ public class JourneyController extends BaseController {
     @Autowired
     JourneyService journeyService;
 
-    @PostMapping("/start")
-    public Object checkIn(@RequestBody JourneyRequest journeyRequest) {
-        Journey journey = new Journey();
-        try {
-            journey = journeyService.start(journeyRequest);
-        } catch (RuntimeException e) {
-            logger.warning("error in checkIn" + e.getMessage());
-        }
-        return ResponseEntity
-            .ok()
-            .body(new SuccessResponse(journey, "Successfully checkedIn"));
-    }
 
-    @PostMapping("/end")
-    public Object checkout(@RequestBody JourneyRequest journeyRequest) {
-        Journey journey = new Journey();
-        Object response = null;
-        try {
-            journey = journeyService.start(journeyRequest);
-        } catch (RuntimeException e) {
-            logger.warning("error in chedckout" + e.getMessage());
-            response = new ErrorResponse(e.getMessage());
-        }
-        response = new SuccessResponse(journey, "Successfully checkedOut");
-
-        return ResponseEntity
-                .ok()
-                .body(response);
-    }
+//    @PostMapping("/start")
+//    public Object checkIn(@RequestBody JourneyRequest journeyRequest) {
+//        Journey journey = new Journey();
+//        try {
+//            journey = journeyService.start(journeyRequest);
+//        } catch (RuntimeException e) {
+//            logger.warning("error in checkIn" + e.getMessage());
+//        }
+//        return ResponseEntity
+//            .ok()
+//            .body(new SuccessResponse(journey, "Successfully checkedIn"));
+//    }
+//
+//    @PostMapping("/end")
+//    public Object checkout(@RequestBody JourneyRequest journeyRequest) {
+//        Journey journey = new Journey();
+//        Object response = null;
+//        try {
+//            journey = journeyService.start(journeyRequest);
+//        } catch (RuntimeException e) {
+//            logger.warning("error in chedckout" + e.getMessage());
+//            response = new ErrorResponse(e.getMessage());
+//        }
+//        response = new SuccessResponse(journey, "Successfully checkedOut");
+//
+//        return ResponseEntity
+//                .ok()
+//                .body(response);
+//    }
 
     @GetMapping("/list")
     public Object journeyHistory() {

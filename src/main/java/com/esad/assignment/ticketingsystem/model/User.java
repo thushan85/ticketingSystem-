@@ -1,6 +1,8 @@
 package com.esad.assignment.ticketingsystem.model;
 
 import com.esad.assignment.ticketingsystem.model.enums.UserType;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -34,4 +36,11 @@ public class User extends BaseModel {
 
     @Enumerated(EnumType.STRING)
     private UserType userType;
+
+    @Column(columnDefinition = "decimal(8,2)")
+    private Double currentBalance;
+
+//    @ManyToOne
+//    @JoinColumn(name = "")
+//    private Vehicle vehicle
 }

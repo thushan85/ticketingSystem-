@@ -11,13 +11,11 @@ public class ErrorResponse {
     private Integer success = 0;
     private Date timestamp = new Date();
     private Object data = null;
-    private Map<String, String> message = new HashMap<>();
+    private String message = null;
 
     public ErrorResponse(String message){
-        this.message.put("0", message);
-    }
-
-    public ErrorResponse(Map<String, String> message){
         this.message = message;
     }
+
+
 }

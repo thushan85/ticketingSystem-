@@ -1,5 +1,6 @@
 package com.esad.assignment.ticketingsystem.model;
 
+import com.esad.assignment.ticketingsystem.model.enums.JourneyEventType;
 import com.fasterxml.jackson.databind.ser.Serializers;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,14 +27,24 @@ public class Journey extends BaseModel {
     private Integer tripId;
     private Integer isCurrent;
 
+    @Column(name = "start_location_id")
+    private Integer startLocationId;
+
+    @Column(name = "end_location_id")
+    private Integer endLocationId;
+
     @ManyToOne
-    @JoinColumn(name = "start_location_id", nullable = false)
+    @JoinColumn(name = "start_location_id", nullable = false, insertable = false, updatable = false)
     private Location startLocation;
 
     @ManyToOne
-    @JoinColumn(name = "end_location_id", nullable = false)
+    @JoinColumn(name = "end_location_id", nullable = false, insertable = false, updatable = false)
     private Location endLocation;
 
     @Column(columnDefinition = "decimal(10,2)")
     private Double journeyFare;
+
+    @Enumerated(EnumType.STRING)
+    @Transient
+    private JourneyEventType eventType;
 }
