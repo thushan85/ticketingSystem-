@@ -31,15 +31,8 @@ public class Vehicle extends Serializers.Base {
 
     private String regNo;
 
-//    @ManyToOne
-//    @JoinColumn(name = "owner_id", nullable = false, insertable = false, updatable = false)
-//    private User owner;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "route_id", nullable = false, insertable = false, updatable = false)
-//    private Route route;
-//
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "driver_id", nullable = false, insertable = false, updatable = false)
-//    private User driver;
+    @ManyToOne
+    @JoinColumn(name = "route_id", nullable = false, updatable = false, insertable = false)
+    private Route route;
+
 }

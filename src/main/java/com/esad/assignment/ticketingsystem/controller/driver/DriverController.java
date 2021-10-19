@@ -68,7 +68,7 @@ public class DriverController extends BaseController {
         Object response = null;
         try {
             journey = journeyService.scanTicket(journeyRequest);
-            response = new SuccessResponse(journey, "Successfully scaned");
+            response = new SuccessResponse(journey, "Successfully scanned");
         } catch (RuntimeException e) {
             logger.warning("error in checkIn" + e.getMessage());
             response = new ErrorResponse("An error occurred while scanning ticket.");

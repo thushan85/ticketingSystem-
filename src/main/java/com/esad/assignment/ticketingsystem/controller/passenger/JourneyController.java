@@ -19,41 +19,10 @@ public class JourneyController extends BaseController {
     @Autowired
     JourneyService journeyService;
 
+    @GetMapping("/list/{passengerId}")
+    public Object journeyHistory(@PathVariable Integer passengerId) {
 
-//    @PostMapping("/start")
-//    public Object checkIn(@RequestBody JourneyRequest journeyRequest) {
-//        Journey journey = new Journey();
-//        try {
-//            journey = journeyService.start(journeyRequest);
-//        } catch (RuntimeException e) {
-//            logger.warning("error in checkIn" + e.getMessage());
-//        }
-//        return ResponseEntity
-//            .ok()
-//            .body(new SuccessResponse(journey, "Successfully checkedIn"));
-//    }
-//
-//    @PostMapping("/end")
-//    public Object checkout(@RequestBody JourneyRequest journeyRequest) {
-//        Journey journey = new Journey();
-//        Object response = null;
-//        try {
-//            journey = journeyService.start(journeyRequest);
-//        } catch (RuntimeException e) {
-//            logger.warning("error in chedckout" + e.getMessage());
-//            response = new ErrorResponse(e.getMessage());
-//        }
-//        response = new SuccessResponse(journey, "Successfully checkedOut");
-//
-//        return ResponseEntity
-//                .ok()
-//                .body(response);
-//    }
-
-    @GetMapping("/list")
-    public Object journeyHistory() {
-
-        List<Journey> journeyList = journeyService.findByPassengerId(1);
+        List<Journey> journeyList = journeyService.findByPassengerId(passengerId);
         logger.info("call journey/list");
         return ResponseEntity
                 .ok()

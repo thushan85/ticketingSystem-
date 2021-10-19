@@ -40,7 +40,7 @@ public class JourneyServiceImpl implements JourneyService {
         Journey journey = journeyRepository.findJourneyByPassengerIdAndIsCurrent(journeyRequest.getPassengerId(), Constants.IS_CURRENT_JOURNEY).orElse(new Journey());
 
         if (journey.getId()  != null && journey.getId() > 0 ) {
-            journey = this.end(journeyRequest);
+            journey = this.end(journeyRequest, journey);
         } else {
             journey = this.start(journeyRequest);
             logger.warning(journey.toString());
@@ -50,8 +50,8 @@ public class JourneyServiceImpl implements JourneyService {
     }
 
     @Override
-    public Journey getLastJourney(Integer passengerId) throws DataNotFoundException {
-        return  journeyRepository.findJourneyByPassengerIdOrderByEndTimeDesc(passengerId).orElseThrow(() -> new DataNotFoundException("No previous journeys"));
+    public Journey getLastJourney(Integer passengerId) {
+        return  journeyRepository.findJourneyByPassengerIdOrderByEndTimeDesc(passengerId).orElse(null);
     }
 
     private Journey start(JourneyRequest journeyRequest) throws JourneyException {
@@ -72,10 +72,8 @@ public class JourneyServiceImpl implements JourneyService {
         return journeyRepository.save(journey);
     }
 
-    private Journey end(JourneyRequest journeyRequest) throws JourneyException {
-        Journey journey = new Journey();
+    private Journey end(JourneyRequest journeyRequest, Journey journey) throws JourneyException {
         Location location = new Location();
-
         location.setLat(journeyRequest.getLat());
         location.setLng(journeyRequest.getLng());
         location = locationRepository.save(location);

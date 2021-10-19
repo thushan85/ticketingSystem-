@@ -24,7 +24,10 @@ public class Journey extends BaseModel {
 
     private Timestamp startTime;
     private Timestamp endTime;
+
+    @Column(name = "trip_id")
     private Integer tripId;
+
     private Integer isCurrent;
 
     @Column(name = "start_location_id")
@@ -44,7 +47,12 @@ public class Journey extends BaseModel {
     @Column(columnDefinition = "decimal(10,2)")
     private Double journeyFare;
 
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false, insertable = false, updatable = false)
+    private Trip trip;
+
     @Enumerated(EnumType.STRING)
     @Transient
     private JourneyEventType eventType;
+
 }
