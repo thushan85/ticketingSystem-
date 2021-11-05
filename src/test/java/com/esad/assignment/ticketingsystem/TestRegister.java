@@ -11,6 +11,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.*;
 
+import java.util.Random;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class TestRegister {
 
@@ -25,11 +27,17 @@ public class TestRegister {
     @Test
     public void contextLoads() throws RuntimeException {
         UserRegisterRequest registerRequest = new UserRegisterRequest();
-        registerRequest.setEmail("user@gmail.com");
+
         registerRequest.setFirstName("Test");
         registerRequest.setLastName("Passenger");
-        registerRequest.setMobileNumber("0717358713");
-        registerRequest.setNic("1234567890");
+
+        String emailSuffix = getRandomNumber(999, 3);
+        String nic = getRandomNumber(9999, 10);
+        String mobile = getRandomNumber(999, 10);
+
+        registerRequest.setEmail(String.format("unitTestUser%s@gmail.com", emailSuffix));
+        registerRequest.setMobileNumber(mobile);
+        registerRequest.setNic(nic);
 
         HttpEntity<UserRegisterRequest> entity = new HttpEntity<UserRegisterRequest>(registerRequest, headers);
 
@@ -41,5 +49,9 @@ public class TestRegister {
         Assertions.assertTrue(response.getBody().contains("success"));
     }
 
-
+    private String getRandomNumber(int range, int length) {
+        Random rnd = new Random();
+        int number = rnd.nextInt(range);
+        return String.format("%0"+ length +"d", number);
+    }
 }
