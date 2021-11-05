@@ -25,7 +25,7 @@ public class DriverController extends BaseController {
     JourneyService journeyService;
 
     @PostMapping("/trip/start")
-    public Object endTrip(@RequestBody DriverTripRequest request) {
+    public Object startTrip(@RequestBody DriverTripRequest request) {
 
         this.logger.warning(request.toString());
         Object response = null;
@@ -42,7 +42,8 @@ public class DriverController extends BaseController {
     }
 
     @PostMapping("/trip/end")
-    public Object startTrip(@RequestBody DriverTripRequest request) {
+    public Object endTrip(@RequestBody DriverTripRequest request) {
+        this.logger.info(request.toString());
         Object response = null;
         try {
             Trip trip = tripService.end(request);
@@ -64,8 +65,8 @@ public class DriverController extends BaseController {
 
     @PostMapping("/scan-ticket")
     public Object scan(@RequestBody JourneyRequest journeyRequest) {
-        Journey journey = new Journey();
-        Object response = null;
+        Journey journey;
+        Object response;
         try {
             journey = journeyService.scanTicket(journeyRequest);
             response = new SuccessResponse(journey, "Successfully scanned");
