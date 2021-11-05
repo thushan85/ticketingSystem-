@@ -1,7 +1,6 @@
 package com.esad.assignment.ticketingsystem.service.impl;
 
 import com.esad.assignment.ticketingsystem.config.Constants;
-import com.esad.assignment.ticketingsystem.exception.DataNotFoundException;
 import com.esad.assignment.ticketingsystem.exception.JourneyException;
 import com.esad.assignment.ticketingsystem.exception.RateExeception;
 import com.esad.assignment.ticketingsystem.lib.feecalulator.Distance;
@@ -20,10 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 
 @Service
@@ -42,9 +38,10 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public Journey scanTicket(JourneyRequest journeyRequest) throws JourneyException {
-        Journey journey = journeyRepository.findJourneyByPassengerIdAndIsCurrent(journeyRequest.getPassengerId(), Constants.IS_CURRENT_JOURNEY).orElse(new Journey());
+        Journey journey = journeyRepository.findJourneyByPassengerIdAndIsCurrent(journeyRequest.getPassengerId(), Constants.IS_CURRENT_JOURNEY)
+                .orElse(new Journey());
 
-        if (journey.getId()  != null && journey.getId() > 0 ) {
+        if (journey.getId() != null && journey.getId() > 0) {
             journey = this.end(journeyRequest, journey);
         } else {
             journey = this.start(journeyRequest);
@@ -56,7 +53,7 @@ public class JourneyServiceImpl implements JourneyService {
 
     @Override
     public Journey getLastJourney(Integer passengerId) {
-        return  journeyRepository.findJourneyByPassengerIdOrderByEndTimeDesc(passengerId).orElse(null);
+        return journeyRepository.findJourneyByPassengerIdOrderByEndTimeDesc(passengerId).orElse(null);
     }
 
     private Journey start(JourneyRequest journeyRequest) throws JourneyException {
@@ -99,7 +96,7 @@ public class JourneyServiceImpl implements JourneyService {
         try {
             if (vehicleType.equals(RateFactory.RATE_BUS)) {
                 rate = RateFactory.getRate(RateFactory.RATE_BUS);
-            } else if (vehicleType.equals(RateFactory.RATE_TRAIN)){
+            } else if (vehicleType.equals(RateFactory.RATE_TRAIN)) {
                 rate = RateFactory.getRate(RateFactory.RATE_TRAIN);
             } else {
                 throw new RateExeception("Invalid vehicleType " + vehicleType);
@@ -109,8 +106,8 @@ public class JourneyServiceImpl implements JourneyService {
             priceStrategy.setRate(rate);
 
             Distance distance = new Distance(
-                new com.esad.assignment.ticketingsystem.lib.feecalulator.Location( Double.parseDouble(start.getLat()), Double.parseDouble(start.getLng())),
-                new com.esad.assignment.ticketingsystem.lib.feecalulator.Location(Double.parseDouble(end.getLat()), Double.parseDouble(end.getLng()))
+                    new com.esad.assignment.ticketingsystem.lib.feecalulator.Location(Double.parseDouble(start.getLat()), Double.parseDouble(start.getLng())),
+                    new com.esad.assignment.ticketingsystem.lib.feecalulator.Location(Double.parseDouble(end.getLat()), Double.parseDouble(end.getLng()))
             );
 
             priceStrategy.setDistance(distance);
