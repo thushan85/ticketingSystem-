@@ -6,6 +6,7 @@ import com.esad.assignment.ticketingsystem.model.Vehicle;
 import com.esad.assignment.ticketingsystem.model.enums.UserType;
 import com.esad.assignment.ticketingsystem.repository.UserRepository;
 import com.esad.assignment.ticketingsystem.repository.VehicleRepository;
+import com.esad.assignment.ticketingsystem.request.TopupRequest;
 import com.esad.assignment.ticketingsystem.request.UserLoginRequest;
 import com.esad.assignment.ticketingsystem.request.UserRegisterRequest;
 import com.esad.assignment.ticketingsystem.service.user.UserRegistrationService;
@@ -69,8 +70,17 @@ public class UserRegistrationServiceImpl implements UserRegistrationService {
     }
 
     @Override
-    public User getUserDetails(Integer userId) throws DataNotFoundException{
+    public User getUserDetails(Integer userId) throws DataNotFoundException {
        User user = this.userRepository.findById(userId).orElseThrow(() -> new DataNotFoundException("User not found"));
        return  user;
+    }
+
+    @Override
+    public User topup(TopupRequest topupRequest) throws DataNotFoundException {
+        User user = this.userRepository.findById(topupRequest.getPassengerId()).orElseThrow(() -> new DataNotFoundException("User not found"));
+        double newAmount = user.getCurrentBalance() + topupRequest.getAmount();
+        user.setCurrentBalance(newAmount);
+        this.userRepository.save(user);
+        return null;
     }
 }
